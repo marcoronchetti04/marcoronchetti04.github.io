@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LUMÉA — Cucina d'Autore | Fine Dining Italiano a Milano. Scopri il percorso gastronomico dello Chef Alessandro Verri.">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta property="og:title" content="LUMÉA — Cucina d'Autore | Fine Dining Italiano">
+    <meta property="og:description" content="Un'esperienza di alta cucina italiana contemporanea dove tradizione, ricerca, design e tecnologia si incontrano.">
+    <meta property="og:type" content="website">
+    
+    <title>LUMÉA — Cucina d'Autore | Fine Dining Italiano</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #0b0b0b;
+            --color-surface-dark: #1a1a1a;
+            --color-surface-light: #2a2420;
+            --color-text-primary: #f5f5f5;
+            --color-text-secondary: #b0a89f;
+            --color-text-muted: #8b7d73;
+            --color-accent: #c9a876;
+            --color-accent-hover: #e0c4a0;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============ PROGRESS BAR ============ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #c9a876, rgba(201, 168, 118, 0.3));
+            z-index: 1001;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* ============ NAVBAR ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-smooth);
+            backdrop-filter: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .navbar.scrolled {
+            backdrop-filter: blur(12px);
+            background: rgba(11, 11, 11, 0.7);
+            border-bottom-color: rgba(201, 168, 118, 0.1);
+        }
+
+        .navbar-logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .navbar-menu li a {
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .navbar-menu li a:hover {
+            color: var(--color-accent);
+        }
+
+        .navbar-cta {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            background: transparent;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .navbar-cta:hover {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+            .navbar-menu {
+                display: none;
+            }
+            .navbar-cta {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0b0b0b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(57, 47, 42, 0.3), rgba(30, 28, 26, 0.4)), 
+                        radial-gradient(ellipse at 40% 30%, rgba(212, 165, 116, 0.15), transparent 60%);
+            opacity: 0;
+            animation: heroFadeIn 1.2s ease 0.8s forwards;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation-duration: 0.8s;
+            animation-timing-function: ease;
+            animation-fill-mode: both;
+        }
+
+        .hero-logo {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 300;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: slideUpFade 0.8s ease 0.4s forwards;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.8rem;
+            opacity: 0;
+            animation: slideUpFade 0.8s ease 0.6s forwards;
+            letter-spacing: 1px;
+        }
+
+        .hero-location {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: slideUpFade 0.8s ease 0.7s forwards;
+            text-transform: uppercase;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: slideUpFade 0.8s ease 1s forwards;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 1rem 2.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+        }
+
+        .cta-primary {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        .cta-primary:hover {
+            background: var(--color-accent-hover);
+            transform: scale(1.05);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .cta-secondary:hover {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: floatAnimation 2s ease-in-out 2.8s infinite, fadeIn 0.8s ease 2.8s forwards;
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes heroFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes floatAnimation {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, -10px); }
+        }
+
+        /* ============ SECTIONS ============ */
+        .section {
+            padding: 6rem 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-intro {
+            text-align: center;
+            padding: 8rem 3rem;
+        }
+
+        .section-intro h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        .section-intro p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.8s forwards;
+            line-height: 1.8;
+        }
+
+        section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ============ PHILOSOPHY ============ */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .philosophy-text {
+            opacity: 0;
+            animation: slideUpFade 0.8s ease forwards;
+        }
+
+        .philosophy-num {
+            font-size: 5rem;
+            font-weight: 300;
+            color: var(--color-accent);
+            opacity: 0.3;
+            margin-bottom: 0.5rem;
+        }
+
+        .philosophy-title {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .philosophy-desc {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .philosophy-img {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-surface-light), #1a1815);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* ============ MENU CARDS ============ */
+        .menu-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: rgba(212, 208, 200, 0.02);
+            border: 1px solid rgba(201, 168, 118, 0.2);
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-8px);
+            background: rgba(201, 168, 118, 0.05);
+        }
+
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .menu-card .portions {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 0.8rem;
+        }
+
+        .menu-card .price {
+            font-size: 1.8rem;
+            color: var(--color-accent);
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .menu-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ============ SIGNATURE DISHES ============ */
+        .signature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .signature-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signature-img {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-surface-light), #1a1815);
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .signature-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ============ CHEF SECTION ============ */
+        .chef-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .chef-name {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .chef-title {
+            color: var(--color-accent);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .chef-img {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-surface-light), #1a1815);
+            margin: 0 auto 3rem;
+            border-radius: 2px;
+        }
+
+        .chef-desc {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* ============ TIMELINE ============ */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .timeline-item {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.8s; }
+        .timeline-item:nth-child(5) { animation-delay: 1s; }
+
+        .timeline-year {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--color-accent);
+        }
+
+        .timeline-place {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============ RESTAURANT SECTION ============ */
+        .restaurant-img {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--color-surface-light), #1a1815);
+            margin-bottom: 2rem;
+            border-radius: 2px;
+        }
+
+        .restaurant-info {
+            text-align: center;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .restaurant-desc {
+            text-align: center;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* ============ GALLERY ============ */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            background: linear-gradient(135deg, var(--color-surface-light), #1a1815);
+            height: 250px;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            opacity: 0.8;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay span {
+            color: var(--color-accent);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ============ EXPERIENCE ============ */
+        .experience-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .experience-item {
+            text-align: center;
+        }
+
+        .experience-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(201, 168, 118, 0.1), rgba(201, 168, 118, 0.05));
+            margin: 0 auto 1.5rem;
+            border-radius: 2px;
+        }
+
+        .experience-label {
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .experience-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ============ FORM ============ */
+        .form-section {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(212, 208, 200, 0.05);
+            border: 1px solid rgba(201, 168, 118, 0.2);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: rgba(201, 168, 118, 0.08);
+        }
+
+        .form-group input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--color-accent);
+            color: var(--color-bg);
+            border: none;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            background: var(--color-accent-hover);
+        }
+
+        .form-note {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-top: 2rem;
+            line-height: 1.6;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--color-surface-dark);
+            padding: 4rem 3rem;
+            border-top: 1px solid rgba(201, 168, 118, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .footer-col a,
+        .footer-col p {
+            display: block;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .footer-col a:hover {
+            color: var(--color-accent);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            border-top: 1px solid rgba(201, 168, 118, 0.1);
+            padding-top: 2rem;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .section-intro {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero-ctas {
+                gap: 1rem;
+            }
+
+            .cta-primary, .cta-secondary {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.8rem;
+            }
+
+            .footer-content {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo {
+                font-size: 2.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1rem;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-logo">LUMÉA</div>
+        <ul class="navbar-menu">
+            <li><a href="#il-ristorante">Il Ristorante</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#chef">Lo Chef</a></li>
+            <li><a href="#esperienza">Esperienza</a></li>
+            <li><a href="#galleria">Galleria</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+        <button class="navbar-cta" onclick="document.getElementById('prenotazione').scrollIntoView({behavior: 'smooth'})">PRENOTA</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-logo">LUMÉA</h1>
+            <p class="hero-tagline">La materia incontra la meraviglia.</p>
+            <p class="hero-location">Cucina d'autore italiana · Milano</p>
+            <div class="hero-ctas">
+                <button class="cta-primary" onclick="document.getElementById('filosofia').scrollIntoView({behavior: 'smooth'})">SCOPRI L'ESPERIENZA</button>
+                <button class="cta-secondary" onclick="document.getElementById('prenotazione').scrollIntoView({behavior: 'smooth'})">PRENOTA UN TAVOLO</button>
+            </div>
+            <div class="scroll-indicator">SCROLL TO DISCOVER ↓</div>
+        </div>
+    </section>
+
+    <!-- INTRO SECTION -->
+    <section class="section-intro">
+        <h1>"Non cuciniamo semplicemente ingredienti.<br/>Raccontiamo ciò che possono diventare."</h1>
+        <p>LUMÉA nasce dall'incontro tra memoria e ricerca. Ogni piatto parte da un ingrediente italiano, attraversa tecniche contemporanee e arriva al tavolo trasformato in un'esperienza.</p>
+    </section>
+
+    <!-- FILOSOFIA -->
+    <section class="section" id="filosofia">
+        <h2>LA NOSTRA FILOSOFIA</h2>
+        
+        <div class="philosophy-grid">
+            <div class="philosophy-text">
+                <div class="philosophy-num">01</div>
+                <h3 class="philosophy-title">MATERIA</h3>
+                <p class="philosophy-desc">Ogni ingrediente è il nostro punto di partenza. La qualità assoluta è il fondamento di ogni ricerca. Lavoriamo con produttori italiani selezionati, ingredienti a km zero e tecniche di conservazione naturali.</p>
+            </div>
+            <div class="philosophy-img"></div>
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-img"></div>
+            <div class="philosophy-text">
+                <div class="philosophy-num">02</div>
+                <h3 class="philosophy-title">MEMORIA</h3>
+                <p class="philosophy-desc">Portiamo le tradizioni italiane nel presente, reinterpretando il passato con uno sguardo contemporaneo. Ogni ricetta racconta una storia, una stagione, una regione.</p>
+            </div>
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-text">
+                <div class="philosophy-num">03</div>
+                <h3 class="philosophy-title">RICERCA</h3>
+                <p class="philosophy-desc">Tecniche contemporanee e innovazione permanente nel nostro laboratorio. Sfidiamo i confini tra cucina tradizionale e sperimentazione, sempre alla ricerca di nuovi equilibri.</p>
+            </div>
+            <div class="philosophy-img"></div>
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-img"></div>
+            <div class="philosophy-text">
+                <div class="philosophy-num">04</div>
+                <h3 class="philosophy-title">MERAVIGLIA</h3>
+                <p class="philosophy-desc">Trasformiamo il cibo in un momento di contemplazione e stupore. Ogni piatto è una performance, ogni servizio una cerimonia. Il tavolo diventa uno spazio di rituale.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="section" id="menu">
+        <h2>IL PERCORSO</h2>
+        <div class="menu-cards">
+            <div class="menu-card">
+                <h3>LUMÉA</h3>
+                <p class="portions">9 portate</p>
+                <div class="price">€145</div>
+                <p>Un viaggio completo attraverso la cucina dello chef. L'esperienza totale, dalla memoria alla meraviglia.</p>
+            </div>
+            <div class="menu-card">
+                <h3>ORIGINI</h3>
+                <p class="portions">6 portate</p>
+                <div class="price">€110</div>
+                <p>L'essenza italiana interpretata attraverso la semplicità. Gli ingredienti parlano, noi ascoltiamo.</p>
+            </div>
+            <div class="menu-card">
+                <h3>VEGETALE</h3>
+                <p class="portions">7 portate</p>
+                <div class="price">€125</div>
+                <p>Un percorso dedicato alla materia vegetale. Verdure, legumi, cereali trasformati in meraviglia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE DISHES -->
+    <section class="section">
+        <h2>SIGNATURE</h2>
+        <div class="signature-grid">
+            <div class="signature-card">
+                <div class="signature-img"></div>
+                <h3>Bosco</h3>
+                <p>Raviolo di porcini, nocciola, erbe spontanee. Un omaggio agli ingredienti del bosco italiano.</p>
+            </div>
+            <div class="signature-card">
+                <div class="signature-img"></div>
+                <h3>Adriatico</h3>
+                <p>Scampo, pomodoro affumicato, basilico e agrumi. Il mare sulla tavola, con la memoria del sole.</p>
+            </div>
+            <div class="signature-card">
+                <div class="signature-img"></div>
+                <h3>Terra</h3>
+                <p>Guancia di manzo, sedano rapa, vino rosso. La terra italiana, lentamente trasformata.</p>
+            </div>
+            <div class="signature-card">
+                <div class="signature-img"></div>
+                <h3>Luce</h3>
+                <p>Mandorla, limone, vaniglia e olio extravergine. Un finale luminoso, dolce e puro.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHEF -->
+    <section class="section chef-section" id="chef">
+        <h2>ALESSANDRO VERRI</h2>
+        <p class="chef-title">Chef · Founder · Visionary</p>
+        <div class="chef-img"></div>
+        <p class="chef-desc">"Per Alessandro Verri la cucina è una forma di memoria. Ogni ingrediente contiene un luogo, una stagione e una storia. La sua ricerca non è mai statica, sempre in movimento tra tradizione e ricerca."</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">2008</div>
+                <div class="timeline-place">Milano</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2012</div>
+                <div class="timeline-place">Parigi</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2016</div>
+                <div class="timeline-place">Tokyo</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019</div>
+                <div class="timeline-place">Copenhagen</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-place">LUMÉA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESTAURANT -->
+    <section class="section" id="il-ristorante">
+        <h2>UNO SPAZIO PENSATO PER RALLENTARE</h2>
+        <div class="restaurant-img"></div>
+        <div class="restaurant-info">32 posti · 1 cucina a vista · 1 esperienza</div>
+        <p class="restaurant-desc">Un edificio storico completamente restaurato. Interni minimalisti, pietra naturale, legno scuro, vetro fumé, metallo satinato e illuminazione calda. Ogni dettaglio è stato pensato per creare un'atmosfera di contemplazione e bellezza. Lo spazio invita al silenzio, al presente, al rituale.</p>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section" id="galleria">
+        <h2>GALLERIA</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay"><span>VIEW →</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="esperienza">
+        <h2>NON È UNA CENA. È UN RITUALE.</h2>
+        <div class="experience-items">
+            <div class="experience-item">
+                <div class="experience-icon"></div>
+                <h3 class="experience-label">ARRIVO</h3>
+                <p class="experience-desc">Un momento di transizione. Dal rumore del mondo al silenzio dello spazio. Ti accogliamo con un gesto, uno sguardo.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-icon"></div>
+                <h3 class="experience-label">ATTESA</h3>
+                <p class="experience-desc">Lo spazio si rivela lentamente. Ogni elemento racconta una storia. L'anticipazione cresce dolcemente.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-icon"></div>
+                <h3 class="experience-label">SCOPERTA</h3>
+                <p class="experience-desc">Il percorso gastronomico inizia. Ogni portata è un capitolo, ogni sapore una rivelazione. Il viaggio prende forma.</p>
+            </div>
+            <div class="experience-item">
+                <div class="experience-icon"></div>
+                <h3 class="experience-label">RICORDO</h3>
+                <p class="experience-desc">Quando te ne andrai, porterai con te non un pasto, ma un'esperienza che resterà nella memoria.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRENOTAZIONE -->
+    <section class="section" id="prenotazione">
+        <div class="form-section">
+            <h2>IL TUO TAVOLO TI ASPETTA.</h2>
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="date">Data</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Orario</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Numero ospiti</label>
+                    <select id="guests" name="guests" required>
+                        <option value="">Seleziona...</option>
+                        <option value="1">1 ospite</option>
+                        <option value="2">2 ospiti</option>
+                        <option value="3">3 ospiti</option>
+                        <option value="4">4 ospiti</option>
+                        <option value="5">5 ospiti</option>
+                        <option value="6+">6+ ospiti</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" placeholder="Il tuo nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="hello@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefono</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+39" required>
+                </div>
+                <button type="submit" class="form-submit">RICHIEDI LA PRENOTAZIONE</button>
+                <p class="form-note">Per esperienze private e occasioni speciali contattaci direttamente a <strong>hello@lumea.it</strong> o al <strong>+39 02 0000 0000</strong>.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>RISTORANTE</h4>
+                <a href="#il-ristorante">Il ristorante</a>
+                <a href="#menu">Menu</a>
+                <a href="#chef">Chef</a>
+                <a href="#galleria">Galleria</a>
+            </div>
+            <div class="footer-col">
+                <h4>INFORMAZIONI</h4>
+                <a href="#prenotazione">Prenotazioni</a>
+                <a href="#contatti">Contatti</a>
+                <a href="#">Privacy</a>
+                <a href="#">Cookie</a>
+            </div>
+            <div class="footer-col">
+                <h4>SEGUICI</h4>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+            </div>
+            <div class="footer-col">
+                <h4>CONTATTI</h4>
+                <p>Via della Luce 18<br/>Milano, Italia</p>
+                <a href="tel:+390200000000">+39 02 0000 0000</a>
+                <a href="mailto:hello@lumea.it">hello@lumea.it</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 LUMÉA. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Progress bar
+        const progressBar = document.getElementById('progressBar');
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+
+            // Navbar background on scroll
+            if (scrollTop > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Form submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const guests = document.getElementById('guests').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Simple validation
+            if (!date || !time || !guests || !name || !email || !phone) {
+                alert('Per favore, compila tutti i campi.');
+                return;
+            }
+
+            // Display success message
+            const successMessage = document.createElement('div');
+            successMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--color-accent);
+                color: var(--color-bg);
+                padding: 2rem 3rem;
+                border-radius: 4px;
+                font-size: 1.1rem;
+                letter-spacing: 2px;
+                z-index: 9999;
+                text-align: center;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                animation: slideUpFade 0.6s ease;
+            `;
+            successMessage.textContent = 'Prenotazione ricevuta! Ti contatteremo presto.';
+            document.body.appendChild(successMessage);
+
+            // Remove message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+
+            // Reset form
+            form.reset();
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Gallery items click handler
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                alert('Lightbox gallery - Puoi implementare una libreria come Lightbox2 o GLightbox per questa funzionalità.');
+            });
+        });
+    </script>
+</body>
+</html>
